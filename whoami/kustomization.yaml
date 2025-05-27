@@ -1,5 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: vehagn
 
 resources:
   - service.yaml
@@ -8,5 +9,6 @@ resources:
 
 configMapGenerator:
   - name: whoami-config
+    namespace: vehagn
     literals:
       - WHOAMI_PORT_NUMBER=8080
