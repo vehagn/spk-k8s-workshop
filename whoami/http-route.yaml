@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: whoami
+  namespace: vehagn
+spec:
+  parentRefs:
+    - name: gke-gateway
+      namespace: gateway
+  hostnames:
+    - whoami.s9n.no
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: whoami
+          port: 80
