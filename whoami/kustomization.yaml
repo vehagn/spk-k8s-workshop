@@ -5,3 +5,8 @@ resources:
   - service.yaml
   - http-route.yaml
   - deployment.yaml
+
+configMapGenerator:
+  - name: whoami-config
+    literals:
+      - WHOAMI_PORT_NUMBER=8080
