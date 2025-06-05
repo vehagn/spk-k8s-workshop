@@ -3,6 +3,8 @@ kind: HTTPRoute
 metadata:
   name: whoami
   namespace: vehagn
+  annotations:
+    link.argocd.argoproj.io/external-link: https://whoami.s9n.no
 spec:
   parentRefs:
     - name: gke-gateway
