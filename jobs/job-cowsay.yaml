@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: cowsay-job
+  namespace: vehagn
 spec:
   template:
     spec:
