@@ -1,0 +1,11 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cowsay-job
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: cowsay
+          image: docker.io/grycap/cowsay
