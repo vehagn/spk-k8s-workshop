@@ -4,7 +4,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
   name: job
+  namespace: vehagn
 spec:
+  serviceAccountName: argo-workflows
   entrypoint: main
   arguments:
     parameters:
@@ -31,8 +33,10 @@ apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
   name: daily-job
+  namespace: vehagn
 spec:
   # run daily at 2am
+  serviceAccountName: argo-workflows
   schedules:
     - "0 2 * * *"
   workflowSpec:
@@ -45,11 +49,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   name: backfill-v1
+  namespace: vehagn
 spec:
   entrypoint: main
   # the backfill must use a service account which can create workflows
   # you should not - despite this example - use "argo-server"
-  serviceAccountName: argo-server
+  serviceAccountName: argo-workflows
   templates:
     - name: main
       steps:
@@ -98,7 +103,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   name: backfill-v2
+  namespace: vehagn
 spec:
+  serviceAccountName: argo-workflows
   entrypoint: main
   # limit to one job at a time
   parallelism: 1
