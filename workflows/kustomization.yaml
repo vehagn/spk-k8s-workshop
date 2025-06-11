@@ -5,3 +5,4 @@ resources:
   - wf-coinflip.yaml
   - wf-dag-coinflip.yaml
   - wft-artifacts.yaml
+  - cron-backfill.yaml
