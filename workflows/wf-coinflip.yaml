@@ -25,14 +25,14 @@ spec:
           - name: tails
             template: tails
             when: "{{steps.flip-coin.outputs.result}} == tails"
-        - - name: flip-coin
+        - - name: flip-coin-2
             template: flip-coin
-        - - name: heads
+        - - name: heads-2
             template: heads
-            when: "{{steps.flip-coin.outputs.result}} == heads"
-          - name: tails
+            when: "{{steps.flip-coin-2.outputs.result}} == heads"
+          - name: tails-2
             template: tails
-            when: "{{steps.flip-coin.outputs.result}} == tails"
+            when: "{{steps.flip-coin-2.outputs.result}} == tails"
 
     - name: flip-coin
       script:
