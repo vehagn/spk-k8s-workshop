@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: vehagn
+
+resources:
+  - service.yaml
+  - http-route.yaml
+  - deployment.yaml
+
+configMapGenerator:
+  - name: tandoor-config
+    namespace: vehagn
+    literals:
+      - SECRET_KEY=YOUR_SECRET_KEY
+      - DB_ENGINE=django.db.backends.postgresql
+      - POSTGRES_HOST=db_recipes
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=djangodb
+      - POSTGRES_PASSWORD=YOUR_POSTGRES_SECRET_KEY
+      - POSTGRES_DB=djangodb

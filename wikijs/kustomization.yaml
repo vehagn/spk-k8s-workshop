@@ -14,3 +14,7 @@ configMapGenerator:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Oslo
+
+images:
+  - name: lscr.io/linuxserver/wikijs
+    newTag: latest
