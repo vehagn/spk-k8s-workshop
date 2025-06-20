@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wikijs
+  namespace: vehagn
+spec:
+  type: ClusterIP
+  selector:
+    app: wikijs
+  ports:
+    - name: web
+      port: 80
+      targetPort: http

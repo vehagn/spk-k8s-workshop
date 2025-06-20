@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: vehagn
+
+resources:
+  - service.yaml
+  - http-route.yaml
+  - deployment.yaml
+
+configMapGenerator:
+  - name: config
+    namespace: vehagn
+    literals:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Oslo
