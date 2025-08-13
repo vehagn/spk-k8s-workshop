@@ -8,4 +8,6 @@ helmCharts:
     version: 0.3.0
     releaseName: podtato-head
     namespace: vehagn
-    valuesFile: values.yaml
+    valuesFile: ./base/values.yaml
+    additionalValuesFiles:
+      - ./squid/values.yaml

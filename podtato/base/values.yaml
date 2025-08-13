@@ -1,0 +1,4 @@
+entry:
+  repositoryBasename: entry
+  serviceType: ClusterIP
+  servicePort: 9000
