@@ -1,0 +1,42 @@
+entry:
+  repositoryBasename: entry
+  serviceType: ClusterIP
+  servicePort: 9000
+  env: []
+  #   - name: PODTATO_PART_NUMBER
+  #     value: "01"
+hat:
+  repositoryBasename: hat
+  serviceType: ClusterIP
+  servicePort: 9001
+  env: []
+  #   - name: PODTATO_PART_NUMBER
+  #     value: "01"
+leftLeg:
+  repositoryBasename: left-leg
+  serviceType: ClusterIP
+  servicePort: 9002
+  env:
+     - name: PODTATO_PART_NUMBER
+       value: "02"
+leftArm:
+  repositoryBasename: left-arm
+  serviceType: ClusterIP
+  servicePort: 9003
+  env: []
+  #   - name: PODTATO_PART_NUMBER
+  #     value: "01"
+rightLeg:
+  repositoryBasename: right-leg
+  serviceType: ClusterIP
+  servicePort: 9004
+  env: []
+  #   - name: PODTATO_PART_NUMBER
+  #     value: "01"
+rightArm:
+  repositoryBasename: right-arm
+  serviceType: ClusterIP
+  servicePort: 9005
+  env: []
+  #   - name: PODTATO_PART_NUMBER
+  #     value: "01"
