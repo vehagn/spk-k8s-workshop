@@ -4,17 +4,26 @@ namespace: vehagn
 
 resources:
   - service.yaml
+  - db-creds.yaml
   - http-route.yaml
   - deployment.yaml
+  - tandoor-secret-key.yaml
 
 configMapGenerator:
   - name: tandoor-config
     namespace: vehagn
     literals:
-      - SECRET_KEY=YOUR_SECRET_KEY
+      - TANDOOR_PORT=8080
       - DB_ENGINE=django.db.backends.postgresql
-      - POSTGRES_HOST=db_recipes
+      - POSTGRES_HOST=postgresql
       - POSTGRES_PORT=5432
       - POSTGRES_USER=djangodb
-      - POSTGRES_PASSWORD=YOUR_POSTGRES_SECRET_KEY
-      - POSTGRES_DB=djangodb
+      - POSTGRES_DB=postgres
+
+helmCharts:
+  - name: postgresql
+    repo: oci://registry-1.docker.io/bitnamicharts
+    releaseName: postgresql
+    namespace: vehagn
+    version: 16.7.24
+    valuesFile: postgres-values.yaml

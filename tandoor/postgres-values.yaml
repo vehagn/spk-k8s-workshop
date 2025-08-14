@@ -1,0 +1,3 @@
+auth:
+  username: djangodb
+  existingSecret: db-creds
