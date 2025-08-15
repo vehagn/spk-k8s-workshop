@@ -17,7 +17,9 @@ spec:
         - name: tandoor
           image: docker.io/vabene1111/recipes:2.0.1
           ports:
-            - name: http
+            - name: nginx
+              containerPort: 80
+            - name: django
               containerPort: 8080
           envFrom:
             - configMapRef:
@@ -36,3 +38,11 @@ spec:
               memory: 256Mi
             limits:
               memory: 1Gi
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /opt/recipes/nginx/conf.d/Recipes.conf
+              subPath: Recipes.conf
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config

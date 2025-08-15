@@ -19,6 +19,10 @@ configMapGenerator:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=djangodb
       - POSTGRES_DB=postgres
+      - NGINX_HOST=_
+  - name: nginx-config
+    namespace: vehagn
+    files: [ nginx/conf.d/Recipes.conf ]
 
 helmCharts:
   - name: postgresql
