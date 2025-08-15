@@ -32,6 +32,14 @@ spec:
                 secretKeyRef:
                   name: db-creds
                   key: password
+          readinessProbe:
+            httpGet:
+              path: /
+              port: django
+          livenessProbe:
+            httpGet:
+              path: /
+              port: django
           resources:
             requests:
               cpu: 10m
