@@ -13,14 +13,11 @@ spec:
       labels:
         app: tandoor
     spec:
-      containers:
-        - name: tandoor
-          image: docker.io/vabene1111/recipes:2.0.1
-          ports:
-            - name: nginx
-              containerPort: 80
-            - name: django
-              containerPort: 8080
+      initContainers:
+        - name: init-chmod-data
+          image: docker.io/vabene1111/recipes:1.5.35
+          securityContext:
+            runAsUser: 0
           envFrom:
             - configMapRef:
                 name: tandoor-config
@@ -32,25 +29,113 @@ spec:
                 secretKeyRef:
                   name: db-creds
                   key: password
+          resources:
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              source venv/bin/activate
+              echo "Updating database"
+              python manage.py migrate
+              python manage.py collectstatic_js_reverse
+              python manage.py collectstatic --noinput
+              echo "Setting media file attributes"
+              chown -R 65534:65534 /opt/recipes/mediafiles
+              find /opt/recipes/mediafiles -type d | xargs -r chmod 755
+              find /opt/recipes/mediafiles -type f | xargs -r chmod 644
+              echo "Done"
+          volumeMounts:
+            - mountPath: /opt/recipes/mediafiles
+              name: media
+              subPath: files
+            - mountPath: /opt/recipes/staticfiles
+              name: static
+              subPath: files
+
+      containers:
+        - name: recipes-nginx
+          image: nginx:latest
+          ports:
+            - name: http
+              containerPort: 80
+            - name: gunicorn
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /media
+              name: media
+              subPath: files
+            - mountPath: /static
+              name: static
+              subPath: files
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+        - name: recipes
+          image: docker.io/vabene1111/recipes:1.5.35
+          securityContext:
+            runAsUser: 65534
+          envFrom:
+            - configMapRef:
+                name: tandoor-config
+            - secretRef:
+                name: tandoor-secret-key
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-creds
+                  key: password
+          command:
+            - /opt/recipes/venv/bin/gunicorn
+            - -b
+            - :8080
+            - --access-logfile
+            - "-"
+            - --error-logfile
+            - "-"
+            - --log-level
+            - INFO
+            - recipes.wsgi
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /
-              port: django
-          livenessProbe:
-            httpGet:
-              path: /
-              port: django
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 30
           resources:
             requests:
-              cpu: 10m
-              memory: 256Mi
+              cpu: 250m
+              memory: 64Mi
             limits:
               memory: 1Gi
           volumeMounts:
-            - name: nginx-config
-              mountPath: /opt/recipes/nginx/conf.d/Recipes.conf
-              subPath: Recipes.conf
+            - mountPath: /opt/recipes/mediafiles
+              name: media
+              subPath: files
+            - mountPath: /opt/recipes/staticfiles
+              name: static
+              subPath: files
       volumes:
+        - name: media
+          emptyDir: { }
+        - name: static
+          emptyDir: { }
         - name: nginx-config
           configMap:
             name: nginx-config

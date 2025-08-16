@@ -17,5 +17,19 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: tandoor
+        - name: recipes
+          port: 8080
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /media
+      backendRefs:
+        - name: recipes
+          port: 80
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /static
+      backendRefs:
+        - name: recipes
           port: 80
