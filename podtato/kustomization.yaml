@@ -10,4 +10,4 @@ helmCharts:
     namespace: vehagn
     valuesFile: ./base/values.yaml
     additionalValuesFiles:
-      - ./squid/values.yaml
+      - ./base/values.yaml
