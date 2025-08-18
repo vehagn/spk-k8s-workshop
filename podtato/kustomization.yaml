@@ -10,4 +10,4 @@ helmCharts:
     namespace: vehagn
     valuesFile: ./base/values.yaml
     additionalValuesFiles:
-      - ./base/values.yaml
+      - ./red-shoes/values.yaml
