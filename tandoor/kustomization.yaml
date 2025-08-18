@@ -14,8 +14,8 @@ configMapGenerator:
     namespace: vehagn
     literals:
       - DEBUG="0"
-      - GUNICORN_MEDIA="0"
-      - ALLOWED_HOSTS=['*']
+      - GUNICORN_MEDIA=0
+      - ALLOWED_HOSTS=*
       - DB_ENGINE=django.db.backends.postgresql
       - POSTGRES_HOST=postgresql
       - POSTGRES_PORT=5432
