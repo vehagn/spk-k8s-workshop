@@ -11,3 +11,8 @@ helmCharts:
     valuesFile: ./base/values.yaml
     additionalValuesFiles:
       - ./red-shoes/values.yaml
+    valuesInline:
+      rightLeg:
+        env:
+          - name: PODTATO_PART_NUMBER
+            value: "02"
